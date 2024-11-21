@@ -6,6 +6,8 @@ public class Food : MonoBehaviour
     public Collider2D spawnArea;
     private Snake snake;
     public bool massBurner;
+    public SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         snake = FindObjectOfType<Snake>();
@@ -13,7 +15,7 @@ public class Food : MonoBehaviour
 
     private void Start()
     {
-        RandomizePosition();
+        //RandomizePosition();
     }
 
     public void RandomizePosition()
@@ -41,6 +43,12 @@ public class Food : MonoBehaviour
                 }
             }
         }
+
+        massBurner = false;
+        if (snake.GetSnakeSize() > 4)
+            massBurner = (Random.Range(1, 10) < 6);
+
+        spriteRenderer.color = (massBurner == true) ? Color.red : Color.green;
 
         transform.position = new Vector2(x, y);
         int randomTime = Random.Range(4, 8);

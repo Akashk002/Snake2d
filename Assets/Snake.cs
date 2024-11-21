@@ -8,8 +8,9 @@ public class Snake : MonoBehaviour
     public Vector2Int direction = Vector2Int.right;
     public float speed = 20f;
     public float speedMultiplier = 1f;
-    public int initialSize = 4;
+    public int snakeSize = 4;
     public bool moveThroughWalls = false;
+    public Food food;
 
     private List<Transform> segments = new List<Transform>();
     private float nextUpdate;
@@ -53,6 +54,12 @@ public class Snake : MonoBehaviour
         segments.Add(segment);
     }
 
+    public void Shrink()
+    {
+        Destroy(segments[segments.Count - 1].gameObject);
+        segments.RemoveAt(segments.Count - 1);
+    }
+
     public void ResetState()
     {
         direction = Vector2Int.right;
@@ -69,10 +76,12 @@ public class Snake : MonoBehaviour
         segments.Add(transform);
 
         // -1 since the head is already in the list
-        for (int i = 0; i < initialSize - 1; i++)
+        for (int i = 0; i < snakeSize - 1; i++)
         {
             Grow();
         }
+
+        food.RandomizePosition();
     }
 
 
@@ -80,7 +89,10 @@ public class Snake : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
-            Grow();
+            if (other.GetComponent<Food>() && other.GetComponent<Food>().massBurner)
+                Shrink();
+            else
+                Grow();
         }
         else if (other.gameObject.CompareTag("Obstacle"))
         {
@@ -155,6 +167,10 @@ public class Snake : MonoBehaviour
 
     }
 
+    public int GetSnakeSize()
+    {
+        return segments.Count;
+    }
 
 
 }

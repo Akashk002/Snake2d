@@ -296,7 +296,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d2d4d1129022a784a9009a0a228043fa, type: 3}
-  m_Color: {r: 0.2265538, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9882353, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -337,8 +337,9 @@ MonoBehaviour:
   direction: {x: 1, y: 0}
   speed: 10
   speedMultiplier: 1
-  initialSize: 4
+  snakeSize: 4
   moveThroughWalls: 1
+  food: {fileID: 1218194419}
 --- !u!61 &352904835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -929,6 +930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnArea: {fileID: 452608627}
   massBurner: 0
+  spriteRenderer: {fileID: 1218194417}
 --- !u!1 &1683784581
 GameObject:
   m_ObjectHideFlags: 0
