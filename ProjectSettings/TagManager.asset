@@ -8,6 +8,7 @@ TagManager:
   - Obstacle
   - PowerUp
   - Food
+  - Obstacle2
   layers:
   - Default
   - TransparentFX

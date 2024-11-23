@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    public bool Snake2;
     public Transform snakePart;
-    public Vector2Int direction = Vector2Int.right;
     public float speed = 20f;
     public float speedMultiplier = 1f;
     public int snakeSize = 4;
+    public PowerUpType currenPowerUpType;
     public bool moveThroughWalls = false;
     public Food food;
 
-    private List<Transform> segments = new List<Transform>();
-    private float nextUpdate;
+    Vector2 IntialPosition;
+    Vector2Int direction = Vector2Int.right;
+    List<Transform> segments = new List<Transform>();
+    float nextUpdate;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
+        IntialPosition = transform.position;
         ResetState();
     }
 
@@ -63,7 +66,7 @@ public class Snake : MonoBehaviour
     public void ResetState()
     {
         direction = Vector2Int.right;
-        transform.position = Vector3.zero;
+        transform.position = IntialPosition;
 
         // Start at 1 to skip destroying the head
         for (int i = 1; i < segments.Count; i++)
@@ -80,8 +83,6 @@ public class Snake : MonoBehaviour
         {
             Grow();
         }
-
-        food.RandomizePosition();
     }
 
 
@@ -89,14 +90,45 @@ public class Snake : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
-            if (other.GetComponent<Food>() && other.GetComponent<Food>().massBurner)
-                Shrink();
-            else
-                Grow();
+            if (other.GetComponent<Food>())
+            {
+                Food food = other.GetComponent<Food>();
+
+                if (food.massBurner)
+                {
+                    GameManager.Instance.UpdateScore(-1, Snake2);
+                    Shrink();
+                }
+                else
+                {
+                    int valAdd = (currenPowerUpType == PowerUpType.ScoreBoost) ? 2 : 1;
+                    GameManager.Instance.UpdateScore(valAdd, Snake2);
+                    Grow();
+                }
+            }
         }
-        else if (other.gameObject.CompareTag("Obstacle"))
+        else
+        if (other.gameObject.CompareTag("PowerUp"))
         {
-            ResetState();
+            if (other.GetComponent<PowerUp>())
+            {
+                currenPowerUpType = other.GetComponent<PowerUp>().powerUpType;
+
+                if (currenPowerUpType == PowerUpType.SpeedUp)
+                {
+                    speed *= 2;
+                }
+
+                GameManager.Instance.UpdatePowerUp(currenPowerUpType, Snake2);
+
+                GameManager.Instance.DisablePowerUp();
+                Invoke("DisablePowerUp", GameManager.Instance.powerUpCoolDownTime);
+            }
+        }
+        else
+        if (currenPowerUpType != PowerUpType.Shield && (other.gameObject.CompareTag("Obstacle") || other.gameObject.CompareTag("Obstacle2")))
+        {
+            GameManager.Instance.GameOver();
         }
         else if (other.gameObject.CompareTag("Wall"))
         {
@@ -130,22 +162,22 @@ public class Snake : MonoBehaviour
     {
         if (direction.x != 0f)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (!Snake2 && Input.GetKeyDown(KeyCode.W) || (Snake2 && Input.GetKeyDown(KeyCode.UpArrow)))
             {
                 direction = Vector2Int.up;
             }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            else if (!Snake2 && Input.GetKeyDown(KeyCode.S) || (Snake2 && Input.GetKeyDown(KeyCode.DownArrow)))
             {
                 direction = Vector2Int.down;
             }
         }
         else if (direction.y != 0f)
         {
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            if (!Snake2 && Input.GetKeyDown(KeyCode.D) || (Snake2 && Input.GetKeyDown(KeyCode.RightArrow)))
             {
                 direction = Vector2Int.right;
             }
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (!Snake2 && Input.GetKeyDown(KeyCode.A) || (Snake2 && Input.GetKeyDown(KeyCode.LeftArrow)))
             {
                 direction = Vector2Int.left;
             }
@@ -172,5 +204,14 @@ public class Snake : MonoBehaviour
         return segments.Count;
     }
 
+    void DisablePowerUp()
+    {
+        if (currenPowerUpType == PowerUpType.SpeedUp)
+        {
+            speed *= 0.5f;
+        }
+        currenPowerUpType = PowerUpType.None;
+        GameManager.Instance.UpdatePowerUp(currenPowerUpType, Snake2);
+    }
 
 }

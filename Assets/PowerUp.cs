@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class Food : MonoBehaviour
+public class PowerUp : MonoBehaviour
 {
     public Collider2D spawnArea;
     public Snake snake, snake2;
-    public bool massBurner;
+    private Food food;
+    public PowerUpType powerUpType;
     public SpriteRenderer spriteRenderer;
+    public Color[] powerUpColor;
 
     private void Awake()
     {
@@ -18,8 +20,17 @@ public class Food : MonoBehaviour
         RandomizePosition();
     }
 
+    void SetPowerUpType()
+    {
+        var ranVal = Random.Range(0, 3);
+        powerUpType = (PowerUpType)(ranVal + 1);
+        spriteRenderer.color = powerUpColor[ranVal];
+    }
+
     public void RandomizePosition()
     {
+        SetPowerUpType();
+
         Bounds bounds = spawnArea.bounds;
 
         // Pick a random position inside the bounds
@@ -27,11 +38,9 @@ public class Food : MonoBehaviour
         int x = Mathf.RoundToInt(Random.Range(bounds.min.x, bounds.max.x));
         int y = Mathf.RoundToInt(Random.Range(bounds.min.y, bounds.max.y));
 
-
-
         if (GameManager.Instance.DoublePlayerMode)
         {
-            while (snake.Occupies(x, y) && snake2.Occupies(x, y))
+            while (snake.Occupies(x, y) && food.Occupies(x, y) && snake2.Occupies(x, y))
             {
                 x++;
 
@@ -49,7 +58,8 @@ public class Food : MonoBehaviour
         }
         else
         {
-            while (snake.Occupies(x, y))
+            // Prevent the food from spawning on the snake
+            while (snake.Occupies(x, y) && food.Occupies(x, y))
             {
                 x++;
 
@@ -65,37 +75,8 @@ public class Food : MonoBehaviour
                 }
             }
         }
-
-        massBurner = false;
-        if (snake.GetSnakeSize() > 4)
-            massBurner = (Random.Range(1, 11) < 6);
-
-        spriteRenderer.color = (massBurner == true) ? Color.red : Color.green;
-
         transform.position = new Vector2(x, y);
-        int randomTime = Random.Range(4, 8);
-        Invoke("RandomizePosition", randomTime);
-    }
-
-    public bool Occupies(int x, int y)
-    {
-        if (Mathf.RoundToInt(transform.position.x) == x &&
-            Mathf.RoundToInt(transform.position.y) == y)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        CancelInvoke("RandomizePosition");
-        RandomizePosition();
-    }
-
-    private void OnDisable()
-    {
-        CancelInvoke("RandomizePosition");
     }
 }
+
+public enum PowerUpType { None, Shield, ScoreBoost, SpeedUp };
