@@ -552,7 +552,7 @@ MonoBehaviour:
   speed: 10
   speedMultiplier: 1
   snakeSize: 4
-  powerUpCoolDownTime: 6
+  powerUpCoolDownTime: 10
   currenPowerUpType: 0
   food: {fileID: 1218194419}
   powerUpController: {fileID: 1826938130}
@@ -3038,6 +3038,7 @@ GameObject:
   - component: {fileID: 1642183338}
   - component: {fileID: 1642183337}
   - component: {fileID: 1642183340}
+  - component: {fileID: 1642183341}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: PowerUp
@@ -3159,6 +3160,27 @@ MonoBehaviour:
   - {r: 0, g: 0.10007739, b: 1, a: 1}
   - {r: 0, g: 1, b: 0.7765689, a: 1}
   - {r: 1, g: 0, b: 0.8333163, a: 1}
+--- !u!95 &1642183341
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642183335}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e60787c16614c0f49b7f974f2bcd2a41, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1662378221
 GameObject:
   m_ObjectHideFlags: 0
@@ -3300,7 +3322,7 @@ MonoBehaviour:
   speed: 10
   speedMultiplier: 1
   snakeSize: 4
-  powerUpCoolDownTime: 6
+  powerUpCoolDownTime: 10
   currenPowerUpType: 0
   food: {fileID: 1218194419}
   powerUpController: {fileID: 1826938130}
@@ -3725,6 +3747,7 @@ GameObject:
   - component: {fileID: 2026633985}
   - component: {fileID: 2026633984}
   - component: {fileID: 2026633983}
+  - component: {fileID: 2026633986}
   m_Layer: 5
   m_Name: PauseBtn
   m_TagString: Untagged
@@ -3859,6 +3882,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026633981}
   m_CullTransparentMesh: 1
+--- !u!114 &2026633986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026633981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!1 &2064638658
 GameObject:
   m_ObjectHideFlags: 0
@@ -4315,6 +4351,7 @@ GameObject:
   - component: {fileID: 1750329751078460068}
   - component: {fileID: 1750329751078460069}
   - component: {fileID: 1750329751078460090}
+  - component: {fileID: 1750329751078460092}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -4399,6 +4436,19 @@ RectTransform:
   m_AnchoredPosition: {x: -230.32, y: 86.98999}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1750329751078460092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750329751078460088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!222 &1750329751230083912
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4449,6 +4499,7 @@ GameObject:
   - component: {fileID: 1750329751230083912}
   - component: {fileID: 1750329751230083913}
   - component: {fileID: 1750329751230083918}
+  - component: {fileID: 1750329751230083920}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -4533,6 +4584,19 @@ RectTransform:
   m_AnchoredPosition: {x: 224.70001, y: 98.79999}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1750329751230083920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750329751230083916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!114 &1750329751863567144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5125,6 +5189,7 @@ GameObject:
   - component: {fileID: 6682711844248366590}
   - component: {fileID: 6682711844248366589}
   - component: {fileID: 6682711844248366588}
+  - component: {fileID: 6682711844248366591}
   m_Layer: 5
   m_Name: BackToMenuBtn
   m_TagString: Untagged
@@ -5247,6 +5312,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6682711844248366578}
   m_CullTransparentMesh: 1
+--- !u!114 &6682711844248366591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682711844248366578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!1 &6682711844672559056
 GameObject:
   m_ObjectHideFlags: 0
@@ -5578,6 +5656,7 @@ GameObject:
   - component: {fileID: 6682711844936450214}
   - component: {fileID: 6682711844936450213}
   - component: {fileID: 6682711844936450212}
+  - component: {fileID: 6682711844936450268}
   m_Layer: 5
   m_Name: RestartBtn
   m_TagString: Untagged
@@ -5606,6 +5685,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6682711844936450268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682711844936450266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!224 &6682711845454187744
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5870,6 +5962,7 @@ GameObject:
   - component: {fileID: 6682711845587331225}
   - component: {fileID: 6682711845587331224}
   - component: {fileID: 6682711845587331231}
+  - component: {fileID: 6682711845587331232}
   m_Layer: 5
   m_Name: ResumeBtn
   m_TagString: Untagged
@@ -5966,6 +6059,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6682711845587331232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6682711845587331229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundType: 0
 --- !u!1 &6682711846180740248
 GameObject:
   m_ObjectHideFlags: 0
