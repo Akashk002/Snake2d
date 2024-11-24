@@ -13,7 +13,7 @@ public class Food : MonoBehaviour
         snake = FindObjectOfType<Snake>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         RandomizePosition();
     }
@@ -29,7 +29,7 @@ public class Food : MonoBehaviour
 
 
 
-        if (GameManager.Instance.DoublePlayerMode)
+        if (snake2)
         {
             while (snake.Occupies(x, y) && snake2.Occupies(x, y))
             {
@@ -68,7 +68,7 @@ public class Food : MonoBehaviour
 
         massBurner = false;
         if (snake.GetSnakeSize() > 4)
-            massBurner = (Random.Range(1, 11) < 6);
+            massBurner = (Random.Range(0, 10) <= 2);
 
         spriteRenderer.color = (massBurner == true) ? Color.red : Color.green;
 

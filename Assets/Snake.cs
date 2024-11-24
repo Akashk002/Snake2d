@@ -5,22 +5,25 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {
     public bool Snake2;
+    public Vector2 intialPosition;
     public Transform snakePart;
     public float speed = 20f;
     public float speedMultiplier = 1f;
     public int snakeSize = 4;
+    public int powerUpCoolDownTime = 6;
     public PowerUpType currenPowerUpType;
-    public bool moveThroughWalls = false;
     public Food food;
+    public PowerUpController powerUpController;
+    public ScoreController scoreController;
+    public GameOverController gameOverController;
 
     Vector2 IntialPosition;
     Vector2Int direction = Vector2Int.right;
     List<Transform> segments = new List<Transform>();
     float nextUpdate;
 
-    private void OnEnable()
+    private void Start()
     {
-        IntialPosition = transform.position;
         ResetState();
     }
 
@@ -66,7 +69,7 @@ public class Snake : MonoBehaviour
     public void ResetState()
     {
         direction = Vector2Int.right;
-        transform.position = IntialPosition;
+        transform.position = intialPosition;
 
         // Start at 1 to skip destroying the head
         for (int i = 1; i < segments.Count; i++)
@@ -96,13 +99,13 @@ public class Snake : MonoBehaviour
 
                 if (food.massBurner)
                 {
-                    GameManager.Instance.UpdateScore(-1, Snake2);
+                    scoreController.UpdateScore(-1, Snake2);
                     Shrink();
                 }
                 else
                 {
                     int valAdd = (currenPowerUpType == PowerUpType.ScoreBoost) ? 2 : 1;
-                    GameManager.Instance.UpdateScore(valAdd, Snake2);
+                    scoreController.UpdateScore(valAdd, Snake2);
                     Grow();
                 }
             }
@@ -119,27 +122,31 @@ public class Snake : MonoBehaviour
                     speed *= 2;
                 }
 
-                GameManager.Instance.UpdatePowerUp(currenPowerUpType, Snake2);
+                scoreController.UpdatePowerUp(currenPowerUpType, Snake2);
 
-                GameManager.Instance.DisablePowerUp();
-                Invoke("DisablePowerUp", GameManager.Instance.powerUpCoolDownTime);
+                powerUpController.DisablePowerUp();
+                Invoke("DisablePowerUp", powerUpCoolDownTime);
             }
         }
         else
-        if (currenPowerUpType != PowerUpType.Shield && (other.gameObject.CompareTag("Obstacle") || other.gameObject.CompareTag("Obstacle2")))
+        if (other.gameObject.CompareTag("Wall"))
         {
-            GameManager.Instance.GameOver();
+            Traverse(other.transform);
         }
-        else if (other.gameObject.CompareTag("Wall"))
+        else
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (moveThroughWalls)
-            {
-                Traverse(other.transform);
-            }
-            else
-            {
-                ResetState();
-            }
+            gameOverController.GameOver(Snake2, true);
+        }
+        else
+        if (currenPowerUpType != PowerUpType.Shield && (!Snake2 && other.gameObject.CompareTag("Obstacle") || Snake2 && other.gameObject.CompareTag("Obstacle2")))
+        {
+            gameOverController.GameOver(!Snake2);
+        }
+        else
+        if (Snake2 && other.gameObject.CompareTag("Obstacle") || !Snake2 && other.gameObject.CompareTag("Obstacle2"))
+        {
+            gameOverController.GameOver(Snake2);
         }
     }
 
@@ -211,7 +218,7 @@ public class Snake : MonoBehaviour
             speed *= 0.5f;
         }
         currenPowerUpType = PowerUpType.None;
-        GameManager.Instance.UpdatePowerUp(currenPowerUpType, Snake2);
+        scoreController.UpdatePowerUp(currenPowerUpType, Snake2);
     }
 
 }

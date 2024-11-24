@@ -1,19 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Statistic : MonoBehaviour
 {
+    public TMP_Text highScoreText, scoreText;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-
+        UpdateScore();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateScore()
     {
+        var lastScore = PlayerPrefs.GetInt("Score", 0);
+        scoreText.text = lastScore.ToString();
 
+        int HighScore = PlayerPrefs.GetInt("HighScore", 0);
+        highScoreText.text = HighScore.ToString();
+
+        if (lastScore > HighScore)
+        {
+            PlayerPrefs.SetInt("HighScore", lastScore);
+            highScoreText.text = lastScore.ToString();
+        }
     }
+
 }

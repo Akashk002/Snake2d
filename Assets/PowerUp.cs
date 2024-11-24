@@ -38,7 +38,7 @@ public class PowerUp : MonoBehaviour
         int x = Mathf.RoundToInt(Random.Range(bounds.min.x, bounds.max.x));
         int y = Mathf.RoundToInt(Random.Range(bounds.min.y, bounds.max.y));
 
-        if (GameManager.Instance.DoublePlayerMode)
+        if (snake2)
         {
             while (snake.Occupies(x, y) && food.Occupies(x, y) && snake2.Occupies(x, y))
             {
