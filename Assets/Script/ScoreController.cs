@@ -6,8 +6,7 @@ using TMPro;
 public class ScoreController : MonoBehaviour
 {
     public int score1, score2;
-    public TMP_Text score1Text, score2Text;
-    public TMP_Text PowerUp1Text, PowerUp2Text;
+    [SerializeField] private TextMeshProUGUI score1Text, score2Text, PowerUp1Text, PowerUp2Text;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +15,9 @@ public class ScoreController : MonoBehaviour
         score2 = 0;
     }
 
-    public void UpdateScore(int Val, bool player2)
+    public void UpdateScore(int Val, SnakeType snakeType)
     {
-        if (player2)
+        if (snakeType == SnakeType.Snake2)
         {
             score2 += Val;
             if (score2 < 0) score2 = 0;
@@ -32,9 +31,9 @@ public class ScoreController : MonoBehaviour
         }
     }
 
-    public void UpdatePowerUp(PowerUpType powerUpType, bool player2)
+    public void UpdatePowerUp(PowerUpType powerUpType, SnakeType snakeType)
     {
-        if (player2)
+        if (snakeType == SnakeType.Snake2)
         {
             PowerUp2Text.text = "PowerUp - " + powerUpType;
         }

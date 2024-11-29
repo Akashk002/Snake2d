@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public bool Snake2;
-    public Vector2 intialPosition;
-    public Transform snakePart;
-    public float speed = 20f;
-    public int snakeSize = 4;
-    public int powerUpCoolDownTime = 6;
-    public PowerUpType currenPowerUpType;
-    public Food food;
-    public PowerUpController powerUpController;
-    public ScoreController scoreController;
-    public GameOverController gameOverController;
+    [SerializeField] private SnakeType snakeType;
+    [SerializeField] private Vector2 intialPosition;
+    [SerializeField] private Transform snakePart;
+    [SerializeField] private float speed = 20f;
+    [SerializeField] private int snakeSize = 4;
+    [SerializeField] private int powerUpCoolDownTime = 6;
+    [SerializeField] private PowerUpType currenPowerUpType;
+    [SerializeField] private Food food;
+    [SerializeField] private PowerUpController powerUpController;
+    [SerializeField] private ScoreController scoreController;
+    [SerializeField] private GameOverController gameOverController;
 
     Vector2Int direction = Vector2Int.right;
     List<Transform> segments = new List<Transform>();
@@ -89,46 +89,41 @@ public class Snake : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Food"))
-        {
-            if (other.GetComponent<Food>())
-            {
-                Food food = other.GetComponent<Food>();
+        Food food = other.GetComponent<Food>();
+        PowerUp powerUp = other.GetComponent<PowerUp>();
 
-                if (food.massBurner)
-                {
-                    AudioManager.Instance.Play(SoundType.CollectMassBurner);
-                    scoreController.UpdateScore(-1, Snake2);
-                    Shrink();
-                }
-                else
-                {
-                    AudioManager.Instance.Play(SoundType.CollectMassGainer);
-                    int valAdd = (currenPowerUpType == PowerUpType.ScoreBoost) ? 2 : 1;
-                    scoreController.UpdateScore(valAdd, Snake2);
-                    Grow();
-                }
+        if (food)
+        {
+            if (food.GetFoodType() == FoodType.MassBurner)
+            {
+                AudioManager.Instance.Play(SoundType.CollectMassBurner);
+                scoreController.UpdateScore(-1, snakeType);
+                Shrink();
+            }
+            else
+            {
+                AudioManager.Instance.Play(SoundType.CollectMassGainer);
+                int valAdd = (currenPowerUpType == PowerUpType.ScoreBoost) ? 2 : 1;
+                scoreController.UpdateScore(valAdd, snakeType);
+                Grow();
             }
         }
         else
-        if (other.gameObject.CompareTag("PowerUp"))
+        if (powerUp)
         {
-            if (other.GetComponent<PowerUp>())
+            AudioManager.Instance.Play(SoundType.CollectPowerUp);
+
+            currenPowerUpType = powerUp.GetPowerType();
+
+            if (currenPowerUpType == PowerUpType.SpeedUp)
             {
-                AudioManager.Instance.Play(SoundType.CollectPowerUp);
-
-                currenPowerUpType = other.GetComponent<PowerUp>().powerUpType;
-
-                if (currenPowerUpType == PowerUpType.SpeedUp)
-                {
-                    speed *= 2;
-                }
-
-                scoreController.UpdatePowerUp(currenPowerUpType, Snake2);
-
-                powerUpController.DisablePowerUp();
-                Invoke("DisablePowerUp", powerUpCoolDownTime);
+                speed *= 2;
             }
+
+            scoreController.UpdatePowerUp(currenPowerUpType, snakeType);
+
+            powerUpController.DisablePowerUp();
+            Invoke(nameof(DisablePowerUp), powerUpCoolDownTime);
         }
         else
         if (other.gameObject.CompareTag("Wall"))
@@ -139,19 +134,19 @@ public class Snake : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             AudioManager.Instance.Play(SoundType.CollideWithTail);
-            gameOverController.GameOver(Snake2, true);
+            gameOverController.GameOver(snakeType, true);
         }
         else
-        if (currenPowerUpType != PowerUpType.Shield && (!Snake2 && other.gameObject.CompareTag("Obstacle") || Snake2 && other.gameObject.CompareTag("Obstacle2")))
+        if (currenPowerUpType != PowerUpType.Shield && (snakeType == SnakeType.Snake1 && other.gameObject.CompareTag("Obstacle") || snakeType == SnakeType.Snake2 && other.gameObject.CompareTag("Obstacle2")))
         {
             AudioManager.Instance.Play(SoundType.CollideWithTail);
-            gameOverController.GameOver(!Snake2);
+            gameOverController.GameOver(snakeType);
         }
         else
-        if (Snake2 && other.gameObject.CompareTag("Obstacle") || !Snake2 && other.gameObject.CompareTag("Obstacle2"))
+        if (snakeType == SnakeType.Snake2 && other.gameObject.CompareTag("Obstacle") || snakeType == SnakeType.Snake1 && other.gameObject.CompareTag("Obstacle2"))
         {
             AudioManager.Instance.Play(SoundType.CollideWithTail);
-            gameOverController.GameOver(Snake2);
+            gameOverController.GameOver(snakeType);
         }
     }
 
@@ -174,22 +169,22 @@ public class Snake : MonoBehaviour
     {
         if (direction.x != 0f)
         {
-            if (!Snake2 && Input.GetKeyDown(KeyCode.W) || (Snake2 && Input.GetKeyDown(KeyCode.UpArrow)))
+            if (snakeType == SnakeType.Snake1 && Input.GetKeyDown(KeyCode.W) || (snakeType == SnakeType.Snake2 && Input.GetKeyDown(KeyCode.UpArrow)))
             {
                 direction = Vector2Int.up;
             }
-            else if (!Snake2 && Input.GetKeyDown(KeyCode.S) || (Snake2 && Input.GetKeyDown(KeyCode.DownArrow)))
+            else if (snakeType == SnakeType.Snake1 && Input.GetKeyDown(KeyCode.S) || (snakeType == SnakeType.Snake2 && Input.GetKeyDown(KeyCode.DownArrow)))
             {
                 direction = Vector2Int.down;
             }
         }
         else if (direction.y != 0f)
         {
-            if (!Snake2 && Input.GetKeyDown(KeyCode.D) || (Snake2 && Input.GetKeyDown(KeyCode.RightArrow)))
+            if (snakeType == SnakeType.Snake1 && Input.GetKeyDown(KeyCode.D) || (snakeType == SnakeType.Snake2 && Input.GetKeyDown(KeyCode.RightArrow)))
             {
                 direction = Vector2Int.right;
             }
-            else if (!Snake2 && Input.GetKeyDown(KeyCode.A) || (Snake2 && Input.GetKeyDown(KeyCode.LeftArrow)))
+            else if (snakeType == SnakeType.Snake1 && Input.GetKeyDown(KeyCode.A) || (snakeType == SnakeType.Snake2 && Input.GetKeyDown(KeyCode.LeftArrow)))
             {
                 direction = Vector2Int.left;
             }
@@ -223,7 +218,9 @@ public class Snake : MonoBehaviour
             speed *= 0.5f;
         }
         currenPowerUpType = PowerUpType.None;
-        scoreController.UpdatePowerUp(currenPowerUpType, Snake2);
+        scoreController.UpdatePowerUp(currenPowerUpType, snakeType);
     }
 
 }
+
+public enum SnakeType { Snake1, Snake2 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource audioSFX, BGSound;
+    [SerializeField] private AudioSource audioSFX, BGSound;
     private static AudioManager instance;
-    public List<Sound> sounds = new List<Sound>();
+    [SerializeField] private List<Sound> sounds = new List<Sound>();
     public static AudioManager Instance { get { return instance; } }
-    public bool isMute;
+    [SerializeField] private bool isMute;
 
     private void Awake()
     {

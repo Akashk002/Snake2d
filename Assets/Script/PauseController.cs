@@ -5,37 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class PauseController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void PauseGame()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         AudioManager.Instance.Play(SoundType.Pause);
         Time.timeScale = 0;
     }
 
     public void ResumeGame()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         Time.timeScale = 1;
     }
 
     public void RestartGame()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void BackToMainMenu()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }

@@ -6,15 +6,10 @@ using TMPro;
 
 public class GameOverController : MonoBehaviour
 {
-    public ScoreController scoreController;
-    public TMP_Text score1Text, score2Text, highScore, WinnerText;
+    [SerializeField] private ScoreController scoreController;
+    [SerializeField] private TextMeshProUGUI score1Text, score2Text, highScore, WinnerText;
 
-    private void OnEnable()
-    {
-
-    }
-
-    public void GameOver(bool snake2Win, bool GameDraw = false)
+    public void GameOver(SnakeType snakeType, bool GameDraw = false)
     {
         AudioManager.Instance.Play(SoundType.GameOver);
 
@@ -23,13 +18,13 @@ public class GameOverController : MonoBehaviour
         UpdateScore();
         if (WinnerText)
         {
-            SetWinner(snake2Win, GameDraw);
+            SetWinner(snakeType, GameDraw);
         }
     }
 
-    private void SetWinner(bool snake2Win, bool GameDraw)
+    private void SetWinner(SnakeType snakeType, bool GameDraw)
     {
-        var winner = (snake2Win) ? "Orange" : " Yellow";
+        var winner = (snakeType == SnakeType.Snake2) ? "Orange" : " Yellow";
         WinnerText.text = "Winner : " + winner + "Snake";
 
         if (GameDraw)
@@ -63,12 +58,14 @@ public class GameOverController : MonoBehaviour
 
     public void RestartGame()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void BackToMainMenu()
     {
+        AudioManager.Instance.Play(SoundType.Click);
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }

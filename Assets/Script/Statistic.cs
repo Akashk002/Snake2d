@@ -5,7 +5,7 @@ using TMPro;
 
 public class Statistic : MonoBehaviour
 {
-    public TMP_Text highScoreText, scoreText;
+    [SerializeField] private TMP_Text highScoreText, scoreText;
 
     private void OnEnable()
     {

@@ -583,11 +583,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a537b5a9c66cd4783ccd65ed03f4de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Snake2: 0
+  snakeType: 0
   intialPosition: {x: -12, y: 6}
   snakePart: {fileID: 6999257957203103950, guid: 9bca0e81ccc05434fa125e89b9d0663d, type: 3}
   speed: 10
-  speedMultiplier: 1
   snakeSize: 4
   powerUpCoolDownTime: 10
   currenPowerUpType: 0
@@ -2327,7 +2326,6 @@ GameObject:
   - component: {fileID: 1072467581}
   - component: {fileID: 1072467580}
   - component: {fileID: 1072467579}
-  - component: {fileID: 1072467582}
   m_Layer: 5
   m_Name: ResumeBtn
   m_TagString: Untagged
@@ -2462,19 +2460,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072467577}
   m_CullTransparentMesh: 1
---- !u!114 &1072467582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072467577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &1072623467
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,8 +2625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e288c4ed6c5706b42a7fd11636f72ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUp: {fileID: 1642183340}
+  spawnArea: {fileID: 452608627}
   disableTime: 5
+  snake: {fileID: 352904834}
+  snake2: {fileID: 0}
+  food: {fileID: 1218194419}
+  powerUp: {fileID: 1642183340}
 --- !u!4 &1129913032
 Transform:
   m_ObjectHideFlags: 0
@@ -3527,13 +3516,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218194413}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -690.37604, y: -558.6161, z: 4.8048463}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1219534029}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1218194419
 MonoBehaviour:
@@ -3547,11 +3536,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af723721a9a0de41b202f19f13285d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodType: 0
+  spriteRenderer: {fileID: 1218194417}
+  foodSpawner: {fileID: 1219534032}
+--- !u!1 &1219534028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1219534029}
+  - component: {fileID: 1219534031}
+  - component: {fileID: 1219534032}
+  m_Layer: 0
+  m_Name: FoodSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1219534029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219534028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 690.37604, y: 558.6161, z: -4.8048463}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1218194418}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1219534031
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219534028}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &1219534032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1219534028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99aea3382dd36bf439b2256cbd37bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   spawnArea: {fileID: 452608627}
   snake: {fileID: 352904834}
   snake2: {fileID: 0}
-  massBurner: 0
-  spriteRenderer: {fileID: 1218194417}
+  food: {fileID: 1218194419}
 --- !u!1 &1287971605
 GameObject:
   m_ObjectHideFlags: 0
@@ -3797,7 +3860,6 @@ GameObject:
   - component: {fileID: 1456481858}
   - component: {fileID: 1456481857}
   - component: {fileID: 1456481856}
-  - component: {fileID: 1456481859}
   m_Layer: 5
   m_Name: RestartBtn
   m_TagString: Untagged
@@ -3920,19 +3982,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1456481854}
   m_CullTransparentMesh: 1
---- !u!114 &1456481859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1456481854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &1551771086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4090,7 +4139,6 @@ GameObject:
   - component: {fileID: 1633527325}
   - component: {fileID: 1633527324}
   - component: {fileID: 1633527323}
-  - component: {fileID: 1633527326}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -4213,19 +4261,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633527321}
   m_CullTransparentMesh: 1
---- !u!114 &1633527326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633527321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &1642183335
 GameObject:
   m_ObjectHideFlags: 0
@@ -4351,9 +4386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953dc5ec2cfb3454aa521fbb97e0b388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnArea: {fileID: 452608627}
-  snake: {fileID: 352904834}
-  snake2: {fileID: 0}
   powerUpType: 0
   spriteRenderer: {fileID: 1642183338}
   powerUpColor:
@@ -4607,7 +4639,6 @@ GameObject:
   - component: {fileID: 1876134682}
   - component: {fileID: 1876134681}
   - component: {fileID: 1876134680}
-  - component: {fileID: 1876134683}
   m_Layer: 5
   m_Name: BackToMenuBtn
   m_TagString: Untagged
@@ -4730,19 +4761,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876134678}
   m_CullTransparentMesh: 1
---- !u!114 &1876134683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1876134678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &1879979216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,7 +5093,6 @@ GameObject:
   - component: {fileID: 2018775025}
   - component: {fileID: 2018775024}
   - component: {fileID: 2018775023}
-  - component: {fileID: 2018775026}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -5198,19 +5215,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2018775021}
   m_CullTransparentMesh: 1
---- !u!114 &2018775026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2018775021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &2026633981
 GameObject:
   m_ObjectHideFlags: 0
@@ -5223,7 +5227,6 @@ GameObject:
   - component: {fileID: 2026633985}
   - component: {fileID: 2026633984}
   - component: {fileID: 2026633983}
-  - component: {fileID: 2026633986}
   m_Layer: 5
   m_Name: PauseBtn
   m_TagString: Untagged
@@ -5358,19 +5361,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026633981}
   m_CullTransparentMesh: 1
---- !u!114 &2026633986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2026633981}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f28930b4b0b55a4a879c00200663719, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SoundType: 0
 --- !u!1 &2064638658
 GameObject:
   m_ObjectHideFlags: 0
